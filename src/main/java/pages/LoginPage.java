@@ -30,8 +30,8 @@ public class LoginPage extends BasePage {
         passwordInput.sendKeys(password);
     }
 
-    public WelcomePage clickLoginButton() {
+    public HomePage clickLoginButton() {
         loginButton.click();
-        return new WelcomePage();
+        return new HomePage();
     }
 }
