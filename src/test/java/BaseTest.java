@@ -30,13 +30,6 @@ public class BaseTest {
         DriverManager.getInstance().quitDriver();
     }
 
-    /*@BeforeMethod(onlyForGroups = {"projectLogIn"})
-    public void loginSite() {
-        loginPage.setEmail(GradleProperties.getInstance().getEmail());
-        loginPage.setPassword(GradleProperties.getInstance().getPassword());
-        homePage = loginPage.clickLoginButton();
-    }*/
-
     @BeforeMethod(onlyForGroups = {"createProject"})
     public void createProject() throws InterruptedException {
         String projectName = "mi proyecto";
