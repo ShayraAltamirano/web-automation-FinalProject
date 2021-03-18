@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeClass;
 import pages.LoginPage;
 import pages.WelcomePage;
 import selenium.DriverManager;
+import utils.GradleProperties;
 
 public class BaseTest {
     private WebDriver driver;
@@ -11,7 +12,7 @@ public class BaseTest {
 
     @BeforeClass
     public void setUp(){
-        DriverManager.getInstance().setUrl("https://todoist.com/users/showlogin");
+        DriverManager.getInstance().setUrl(GradleProperties.getInstance().getSite());
         loginPage = new LoginPage();
 
     }
