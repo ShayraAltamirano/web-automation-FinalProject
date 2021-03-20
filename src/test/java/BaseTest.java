@@ -10,41 +10,63 @@ import selenium.DriverManager;
 import utils.GradleProperties;
 
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class BaseTest {
     private WebDriver driver;
     protected LoginPage loginPage;
     protected HomePage homePage;
+    protected String sectionNameBase= "mi section";
+    protected String nextSectionNameBase= "mi section 2";
+    protected String projectName="mi proyecto";
 
-    @BeforeClass(alwaysRun=true)
+
+    @BeforeMethod(alwaysRun=true)
     public void setUp(){
         DriverManager.getInstance().setUrl(GradleProperties.getInstance().getSite());
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void tearDown(){
+        DriverManager.getInstance().quitDriver();
+    }
+
+    @BeforeMethod(onlyForGroups = {"projectLogIn"}, dependsOnMethods = {"setUp"})
+    public void logIn(){
         loginPage = new LoginPage();
         loginPage.setEmail(GradleProperties.getInstance().getEmail());
         loginPage.setPassword(GradleProperties.getInstance().getPassword());
         homePage = loginPage.clickLoginButton();
     }
 
-    @AfterClass(alwaysRun = true)
-    public void tearDown(){
-        DriverManager.getInstance().quitDriver();
-    }
-
-    @BeforeMethod(onlyForGroups = {"createProject"})
+    @BeforeMethod(onlyForGroups = {"createProject"}, dependsOnMethods = {"logIn"})
     public void createProject() throws InterruptedException {
-        String projectName = "mi proyecto";
-
         AddProjectModalPage addProjectModalPage = homePage.leftPanelPage.clickAddProject();
         addProjectModalPage.setProjectNameInput(projectName);
         addProjectModalPage.selectBoardView();
         homePage= addProjectModalPage.clickAddProject();
     }
 
+    @BeforeMethod(onlyForGroups = {"addSection"}, dependsOnMethods = {"createProject"})
+        public void addSection() {
+        homePage.centralAreaPage.addSection(sectionNameBase);
+    }
+
+    @BeforeMethod(onlyForGroups = {"addNextSection"}, dependsOnMethods = {"addSection"})
+        public void addNextSection() throws InterruptedException {
+        homePage.centralAreaPage.addNextSection(nextSectionNameBase);
+    }
+
+    @AfterMethod(onlyForGroups = {"deleteSection"})
+    public void deleteSection() {
+        homePage.centralAreaPage.clickSectionMenu(sectionNameBase);
+        homePage.centralAreaPage.deleteSection();
+    }
+
     @AfterMethod(onlyForGroups = {"deleteProject"})
     public void deleteProject() throws InterruptedException {
-        String projectName = "mi proyecto";
-
         homePage.leftPanelPage.clickProject(projectName);
         homePage.centralAreaPage.clickProjectMenu().deleteProject();
     }
+
 }

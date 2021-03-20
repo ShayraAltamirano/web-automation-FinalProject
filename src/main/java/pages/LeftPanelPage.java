@@ -53,6 +53,7 @@ public class LeftPanelPage extends BasePage {
     public void hideArchivedProjects(){
         hideArchivedProjects.click();
     }
+
     public void clickProject(String name)  {
 
         WebElement project = driver.findElement(By.xpath(String.format(projectName, name)));
@@ -79,10 +80,10 @@ public class LeftPanelPage extends BasePage {
 
     public boolean isProjectColorChanged(String name, String color){
         By project = By.xpath(String.format(projectColor,name,color));
-        System.out.println(By.xpath(String.format(projectColor,name,color)).toString());
         boolean exists = driver.findElements(project).size()>0;
         return exists;
     }
+
     public class ArchivedProjects{
 
         private String projectNameArchived = "//ul[@id='projects_archived_ul']//span[text()='%s']";
