@@ -6,6 +6,7 @@ public class Constants {
     public static final String CHROME_DRIVER = "chromeDriver";
     public static final String MAIN_RESOURCES_PATH = "src/main/resources/";
     public static final String CONFIG_PROPERTIES = "config.properties";
+    public static final String GRADLE_PROPERTIES = "gradle.properties";
     public static final String CHROME = "chrome";
     public static final String FIREFOX = "firefox";
     public static final String CHROME_WEBDRIVER = "webdriver.chrome.driver";

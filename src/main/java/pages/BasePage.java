@@ -7,9 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.DriverManager;
 
+import org.apache.log4j.Logger;
+
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    public Logger log = Logger.getLogger(getClass());
 
     public BasePage(){
         this.driver= DriverManager.getInstance().getDriver();

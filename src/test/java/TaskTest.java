@@ -2,42 +2,45 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import org.testng.asserts.SoftAssert;
 
 public class TaskTest extends BaseTest{
-    @Test(groups ={"projectLogIn","createProject","addSection"})
+    @Test(groups ={"projectLogIn","createProject","addSection","deleteProject"})
     public void test1AddTask(){
-        homePage.centralAreaPage.addTaskInSection(sectionNameBase,taskNameBase);
-        assertTrue(homePage.centralAreaPage.isTaskDisplayed(taskNameBase));
+        homePage.taskCentralAreaPage.addTaskInSection(section.getName(), task.getName());
+        assertTrue(homePage.taskCentralAreaPage.isTaskDisplayed(task.getName()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addTask"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test2DuplicateTask() {
-        homePage.centralAreaPage.clickDuplicateTask(taskNameBase);
-        assertTrue(homePage.centralAreaPage.isDuplicatedTaskDisplayed(taskNameBase));
+        homePage.taskCentralAreaPage.clickDuplicateTask(task.getName());
+        assertTrue(homePage.taskCentralAreaPage.isDuplicatedTaskDisplayed(task.getName()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addTask"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test3CompleteTask() {
-        homePage.centralAreaPage.clickCompleteTask(taskNameBase);
-        assertTrue(homePage.centralAreaPage.isTaskCompleted());
+        homePage.taskCentralAreaPage.clickCompleteTask(task.getName());
+        assertTrue(homePage.taskCentralAreaPage.isTaskCompleted());
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addTask"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test4DeleteTask() {
-        homePage.centralAreaPage.deleteTask(taskNameBase);
-        assertFalse(homePage.centralAreaPage.isTaskDisplayed(taskNameBase));
+        homePage.taskCentralAreaPage.deleteTask(task.getName());
+        assertFalse(homePage.taskCentralAreaPage.isTaskDisplayed(task.getName()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addTask"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test5EditTaskSchedule(){
-        String taskSchedule="Tomorrow";
-        homePage.centralAreaPage.editScheduleTask(taskNameBase,taskSchedule);
-        assertTrue(homePage.centralAreaPage.isTaskScheduled(taskNameBase,taskSchedule));
+        task.setTaskSchedule("Tomorrow");
+        homePage.taskCentralAreaPage.editScheduleTask(task.getName(),task.getTaskSchedule());
+        assertTrue(homePage.taskCentralAreaPage.isTaskScheduled(task.getName(),task.getTaskSchedule()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addNextSection","addTask","addNextTask"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addNextSection","addTask","addNextTask","deleteProject"})
     public void test6DragAndDropTask() throws InterruptedException {
-        homePage.centralAreaPage.dragAndDropTask(taskNameBase,nextTaskNameBase);
-        assertTrue(homePage.centralAreaPage.isTaskDragAndDropped());
+        SoftAssert softAssert = new SoftAssert();
+        homePage.taskCentralAreaPage.dragAndDropTask(task.getName(),task2.getName());
+        softAssert.assertTrue(homePage.taskCentralAreaPage.isTaskDragAndDropped());
     }
+
 }
