@@ -24,3 +24,8 @@ Feature: Projects
     When I select edit option of project
     And I change color of Project
     Then The project's color is changed
+
+  @createProject
+  Scenario: Archive a project
+    When I select Archive Project Menu option
+    Then The Project is archived

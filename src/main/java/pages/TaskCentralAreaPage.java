@@ -25,15 +25,29 @@ public class TaskCentralAreaPage extends BasePage {
         driver.findElement(confirmAddTaskButton).click();
     }
 
+    public void clickAddTaskPlusSign(String sectionName){
+        By addTaskButton = By.xpath(String.format(addTaskSectionButtonStr,sectionName));
+        driver.findElement(addTaskButton).click();
+    }
+
+    public void enterTaskName(String taskName){
+        By taskNameInput= By.cssSelector("span[data-offset-key]");
+        driver.findElement(taskNameInput).sendKeys(taskName);
+    }
+
+    public void clickAddTaskButton(){
+        By confirmAddTaskButton = By.xpath(".//button[@class='ist_button ist_button_red' and text()='Add task']");
+        driver.findElement(confirmAddTaskButton).click();
+    }
     public boolean isTaskDisplayed(String name){
         By task = By.xpath(String.format(taskNameStr,name));
         boolean exists = driver.findElements(task).size()>0;
         return exists;
     }
 
-    public void clickTaskMenu(String name){
-        hoverOverProjects(driver.findElement(By.xpath(String.format(taskNameStr,name))));
-        By taskMenuButton = By.xpath(String.format(taskNameMenuStr,name));;
+    public void clickTaskMenu(String taskName){
+        hoverOverProjects(driver.findElement(By.xpath(String.format(taskNameStr,taskName))));
+        By taskMenuButton = By.xpath(String.format(taskNameMenuStr,taskName));;
         driver.findElement(taskMenuButton).click();
     }
 
@@ -62,14 +76,21 @@ public class TaskCentralAreaPage extends BasePage {
         return exists;
     }
 
-    public void clickDeleteTask(){
+    public void clickDeleteTaskMenuOption(){
         By deleteTask = By.xpath("//div[text()='Delete task']");
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(deleteTask)));
         driver.findElement(deleteTask).click();
     }
+
+    public void clickDeleteTaskButton(){
+        By triggerConfirmButton = By.xpath(".//button[text()='Delete']");
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(triggerConfirmButton)));
+        driver.findElement(triggerConfirmButton).click();
+    }
+
     public void deleteTask(String name){
         clickTaskMenu(name);
-        clickDeleteTask();
+        clickDeleteTaskMenuOption();
         By triggerConfirmButton = By.xpath(".//button[text()='Delete']");
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(triggerConfirmButton)));
         driver.findElement(triggerConfirmButton).click();
@@ -87,6 +108,17 @@ public class TaskCentralAreaPage extends BasePage {
         By saveButton = By.xpath(".//button[@class='ist_button ist_button_red' and text()='Save']");
         clickTaskMenu(taskName);
         clickEditTask();
+        driver.findElement(scheduleTask).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(tomorrowScheduleTask)));
+        driver.findElement(tomorrowScheduleTask).click();
+        driver.findElement(saveButton).click();
+    }
+
+    public void editScheduleTaskAction(String schedule) {
+        By scheduleTask = By.xpath("//span[text()='Schedule']");
+        By tomorrowScheduleTask = By.xpath(String.format(taskScheduleStr,schedule));
+        By saveButton = By.xpath(".//button[@class='ist_button ist_button_red' and text()='Save']");
+
         driver.findElement(scheduleTask).click();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(tomorrowScheduleTask)));
         driver.findElement(tomorrowScheduleTask).click();

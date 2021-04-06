@@ -27,7 +27,7 @@ public class BaseTest {
     Task task2 = new Task();
 
     public BaseTest(){
-        this.project=project;
+
         project.setName("my project");
         section.setName("my section");
         section2.setName("my section2");

@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 import pages.AddProjectModalPage;
 import pages.HomePage;
 import org.apache.log4j.Logger;
+import pages.LeftPanelPage;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -79,5 +80,17 @@ public class ProjectSteps {
     @Then("The project's color is changed")
     public void theProjectSColorIsChanged() {
         assertTrue(homePage.leftPanelPage.isProjectColorChanged(project.getName(), project.getColor()));
+    }
+
+    @When("I select Archive Project Menu option")
+    public void iSelectArchiveProjectMenuOption() {
+        homePage.leftPanelPage.clickProject(project.getName());
+        homePage.projectCentralAreaPage.clickProjectMenu().archiveProject();
+    }
+
+    @Then("The Project is archived")
+    public void theProjectIsArchived() {
+        LeftPanelPage.ArchivedProjects archivedProjects = homePage.leftPanelPage.showArchivedProjects();
+        assertTrue(archivedProjects.isProjectNameArchived(project.getName()));
     }
 }

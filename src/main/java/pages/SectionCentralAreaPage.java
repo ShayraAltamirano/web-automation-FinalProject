@@ -32,7 +32,12 @@ public class SectionCentralAreaPage extends BasePage {
         setSectionNameStr(sectionName);
         addSectionButton.click();
     }
-
+    public void enterSectionName(String sectionName){
+        setSectionNameStr(sectionName);
+    }
+    public void clickAddSectionButton(){
+        addSectionButton.click();
+    }
     public void addNextSection(String nextSectionName)  {
         By nextSectionAdd=By.cssSelector(".board_add_section_button__label");
         By addNextSectionButton=By.cssSelector(".ist_button_red");
@@ -92,10 +97,18 @@ public class SectionCentralAreaPage extends BasePage {
         driver.findElement(triggerConfirmButton).click();
     }
 
+    public void clickDeleteSectionButton(){
+        By triggerConfirmButton = By.xpath(".//button[text()='Delete']");
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(triggerConfirmButton)));
+        driver.findElement(triggerConfirmButton).click();
+    }
+
+
     public void dragAndDropSection()  {
         Actions action=new Actions(driver);
         WebElement sectionPos1 = driver.findElement(By.cssSelector(".board_view__section_board:first-of-type"));
         WebElement sectionPos2 = driver.findElement(By.cssSelector(".board_view__section_board:first-of-type + div + section"));
+        action.moveToElement(sectionPos2);
         action.dragAndDrop(sectionPos1,sectionPos2).release(sectionPos2).build().perform();
     }
 
