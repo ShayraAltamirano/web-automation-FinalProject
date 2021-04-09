@@ -13,7 +13,7 @@ public class TaskTest extends BaseTest{
 
     @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test2DuplicateTask() {
-        homePage.taskCentralAreaPage.clickDuplicateTask(task.getName());
+        homePage.taskCentralAreaPage.duplicateTask(task.getName());
         assertTrue(homePage.taskCentralAreaPage.isDuplicatedTaskDisplayed(task.getName()));
     }
 
@@ -32,7 +32,7 @@ public class TaskTest extends BaseTest{
     @Test(groups ={"projectLogIn","createProject","addSection","addTask","deleteProject"})
     public void test5EditTaskSchedule(){
         task.setTaskSchedule("Tomorrow");
-        homePage.taskCentralAreaPage.editScheduleTask(task.getName(),task.getTaskSchedule());
+        homePage.taskCentralAreaPage.editTask(task.getName(),task.getTaskSchedule());
         assertTrue(homePage.taskCentralAreaPage.isTaskScheduled(task.getName(),task.getTaskSchedule()));
     }
 

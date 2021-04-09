@@ -7,8 +7,15 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+/*
+This Class corresponds to the Left panel Page for CRUD Project abstraction
+@author: Shayra Altamirano
+@version: 04/09/2021
+ */
 
 public class LeftPanelPage extends BasePage {
+
+    //Page Factory Annotations
     @FindBy(css=".expansion_panel__header")
     @CacheLookup
     WebElement projectBox;
@@ -29,17 +36,22 @@ public class LeftPanelPage extends BasePage {
     @CacheLookup
     WebElement deleteProject;
 
-    private String projectName = "//ul[@id='projects_list']//span[text()='%s']";
-    private String projectMenu = "//ul[@id='projects_list']//span[text()='%s']/../following-sibling::td/div[contains(@class,'gear_menu')]";
-    private String projectColor = "//ul[@id='projects_list']//span[text()='%1$s']/../preceding::td/div[contains(@style,'%2$s')]";
-    private By triggerConfirmButton = By.xpath(".//button[text()='Delete']");
-
     public LeftPanelPage(){
         PageFactory.initElements(driver,this);
     }
 
+    //String Xpath elements that depends on Section name to later format String
+    private String projectName = "//ul[@id='projects_list']//span[text()='%s']";
+    private String projectMenu = "//ul[@id='projects_list']//span[text()='%s']/../following-sibling::td/div[contains(@class,'gear_menu')]";
+    private String projectColor = "//ul[@id='projects_list']//span[text()='%1$s']/../preceding::td/div[contains(@style,'%2$s')]";
+
+    //By elements to use
+    private By triggerConfirmButton = By.xpath(".//button[text()='Delete']");
+
+
+
     public AddProjectModalPage clickAddProject(){
-        hoverOverProjects(projectBox);
+        hoverOverElement(projectBox);
         wait.until(ExpectedConditions.visibilityOf(addSymbolButton));
         addSymbolButton.click();
         return new AddProjectModalPage();
@@ -63,7 +75,7 @@ public class LeftPanelPage extends BasePage {
     public void clickProjectMenu(String name)  {
 
         WebElement project = driver.findElement(By.xpath(String.format(projectName, name)));
-        hoverOverProjects(project);
+        hoverOverElement(project);
         By projectMenuBy = By.xpath(String.format(projectMenu,name));
         wait.until(ExpectedConditions.visibilityOfElementLocated(projectMenuBy));
         driver.findElement(projectMenuBy).click();

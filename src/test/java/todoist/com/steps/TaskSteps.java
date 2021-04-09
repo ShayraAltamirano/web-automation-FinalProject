@@ -59,7 +59,7 @@ public class TaskSteps {
     @And("I click on Delete Task button")
     public void iClickOnDeleteTaskButton() {
         log.info("Click on Delete Task button confirmation");
-        homePage.taskCentralAreaPage.clickDeleteTaskButton();
+        homePage.taskCentralAreaPage.clickDeleteTaskConfirmationButton();
     }
 
     @Then("the Task should be deleted")
@@ -91,7 +91,7 @@ public class TaskSteps {
     @When("I select Duplicate Task Menu option")
     public void iSelectDuplicateTaskMenuOption() {
         log.info("Click on Duplicate Task menu option");
-        homePage.taskCentralAreaPage.clickDuplicateTask(task.getName());
+        homePage.taskCentralAreaPage.duplicateTask(task.getName());
     }
 
     @Then("The Task is Duplicated")

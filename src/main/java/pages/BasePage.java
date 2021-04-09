@@ -19,7 +19,7 @@ public abstract class BasePage {
         this.wait= DriverManager.getInstance().getWait();
 
     }
-    protected void hoverOverProjects(WebElement element) {
+    protected void hoverOverElement(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
         Actions actions = new Actions(driver);
         actions.moveToElement(element).perform();

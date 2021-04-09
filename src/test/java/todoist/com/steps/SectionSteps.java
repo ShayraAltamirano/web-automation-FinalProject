@@ -53,7 +53,7 @@ public class SectionSteps {
     @And("I click on Delete Section button")
     public void iClickOnDeleteSectionButton() {
         log.info("Click Delete Section button");
-        homePage.sectionCentralAreaPage.clickDeleteSectionButton();
+        homePage.sectionCentralAreaPage.clickDeleteSectionConfirmationButton();
     }
 
     @Then("the Section should be deleted")
@@ -66,6 +66,7 @@ public class SectionSteps {
     public void iSelectEditOptionOfSection() {
         log.info("Click Edit Section menu option");
         homePage.sectionCentralAreaPage.clickSectionMenu(section.getName());
+        homePage.sectionCentralAreaPage.clickEditSection();
     }
 
     @And("I update Section's name to {string}")
