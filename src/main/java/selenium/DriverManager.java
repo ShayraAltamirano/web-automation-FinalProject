@@ -60,4 +60,7 @@ public class DriverManager {
         instance = null;
     }
 
+    public String getCurrentUrl(){
+        return driver.getCurrentUrl();
+    }
 }

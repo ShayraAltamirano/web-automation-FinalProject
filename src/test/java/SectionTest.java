@@ -4,44 +4,45 @@ import utils.GradleProperties;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import org.testng.asserts.SoftAssert;
 
 public class SectionTest extends BaseTest{
 
-    @Test(groups ={"projectLogIn","createProject"})
+    @Test(groups ={"projectLogIn","createProject","deleteProject"})
     public void test1AddSection() {
-        homePage.centralAreaPage.addSection(sectionNameBase);
-        assertTrue(homePage.centralAreaPage.isSectionDisplayed(sectionNameBase));
+        homePage.sectionCentralAreaPage.addSection(section.getName());
+        assertTrue(homePage.sectionCentralAreaPage.isSectionDisplayed(section.getName()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection"})
+    @Test(groups ={"projectLogIn","createProject","addSection","deleteProject"})
     public void test2EditSection() throws InterruptedException {
-        String editedSectionName = "mi section Edited";
-        homePage.centralAreaPage.clickSectionMenu(sectionNameBase);
-        homePage.centralAreaPage.editSection(editedSectionName);
-        sectionNameBase=editedSectionName;//to delete section
-        assertTrue(homePage.centralAreaPage.isSectionDisplayed(sectionNameBase));
+        homePage.sectionCentralAreaPage.clickSectionMenu(section.getName());
+        section.setName("my section Edited");
+        homePage.sectionCentralAreaPage.editSection(section.getName());
+        assertTrue(homePage.sectionCentralAreaPage.isSectionDisplayed(section.getName()));
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection"})
+    @Test(groups ={"projectLogIn","createProject","addSection","deleteProject"})
     public void test3DeleteSection() {
-        homePage.centralAreaPage.clickSectionMenu(sectionNameBase);
-        homePage.centralAreaPage.deleteSection();
-        assertFalse(homePage.centralAreaPage.isSectionDisplayed(sectionNameBase));
+        homePage.sectionCentralAreaPage.clickSectionMenu(section.getName());
+        homePage.sectionCentralAreaPage.deleteSection();
+        assertFalse(homePage.sectionCentralAreaPage.isSectionDisplayed(section.getName()));
 
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection"})
+    @Test(groups ={"projectLogIn","createProject","addSection","deleteProject"})
     public void test4DuplicateSection() {
-        homePage.centralAreaPage.clickSectionMenu(sectionNameBase);
-        homePage.centralAreaPage.clickDuplicateSection();
-        assertTrue(homePage.centralAreaPage.isDuplicatedSectionDisplayed(sectionNameBase));
+        homePage.sectionCentralAreaPage.clickSectionMenu(section.getName());
+        homePage.sectionCentralAreaPage.clickDuplicateSection();
+        assertTrue(homePage.sectionCentralAreaPage.isDuplicatedSectionDisplayed(section.getName()));
 
     }
 
-    @Test(groups ={"projectLogIn","createProject","addSection","addNextSection"})
+    @Test(groups ={"projectLogIn","createProject","addSection","addNextSection","deleteProject"})
     public void test5DragAndDrop() {
-        homePage.centralAreaPage.dragAndDropSection();
-        assertTrue(homePage.centralAreaPage.isDragAndDropped());
+        SoftAssert softAssert = new SoftAssert();
+        homePage.sectionCentralAreaPage.dragAndDropSection();
+        softAssert.assertTrue(homePage.sectionCentralAreaPage.isDragAndDropped());
     }
 
 }

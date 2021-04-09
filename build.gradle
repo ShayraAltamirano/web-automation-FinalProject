@@ -1,8 +1,12 @@
+/*import net.masterthought.cucumber.Configuration
+import net.masterthought.cucumber.ReportBuilder
+*/
 plugins {
     id 'java'
+    //id "com.github.spacialcircumstances.gradle-cucumber-reporting" version "0.1.2"
 }
 
-group 'org.example'
+group 'todoist.com'
 version '1.0-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -15,14 +19,82 @@ dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '7.3.0'
     implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
     implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
+    implementation 'log4j:log4j:1.2.17'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '6.10.2'
+    testImplementation group: 'io.cucumber', name: 'cucumber-picocontainer', version: '6.10.2'
+    //generar json, after execution, etc
+    implementation group: 'io.cucumber', name: 'cucumber-testng', version: '6.10.2'
+    implementation group: 'net.masterthought', name: 'cucumber-reporting', version: '5.5.2'
+
 }
 
+/*def generateReport(String pathReport, String pathCucumber) {
+    println '>>>>Generate the HTML Report<<<<'
+    File jsonFile = new File(pathCucumber)
+    if (jsonFile.exists()) {
+        println '>>>>JSON file existe<<<<'
+        File reportOutputDirectory = new File(pathReport)
+        List<String> jsonReportFiles = new ArrayList<>()
+        jsonReportFiles.add(pathCucumber)
+        String buildProjectName = 'todoist'
+
+        Configuration configuration = new Configuration(reportOutputDirectory, buildProjectName)
+        ReportBuilder reportBuilder = new ReportBuilder(jsonReportFiles, configuration)
+        reportBuilder.generateReports()
+    }
+}
+*/
 test {
 
-    useTestNG(){
         systemProperty "browser", browser
         systemProperty "site", site
         systemProperty "email", email
         systemProperty "password", password
+        useTestNG()
+        scanForTestClasses = false
+        options{
+            jvmArgs =["-Dcucumber.options=" +
+                              "--glue todoist.com " +
+                              "--plugin json:build/cucumber/cucumber.json" +
+                              "src/test/resoruces/feature/login"]
+        }
+}
+
+configurations{
+    cucumberRuntime{
+        extendsFrom testImplementation
+    }
+}
+
+task cucumberTags(){
+    dependsOn assemble, testClasses
+    doLast{
+        javaexec {
+            main ="io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin','pretty',
+                    '--plugin','json:build/cucumber/cucumber.json',
+                    '--plugin','json:build/cucumber/rerun.txt',
+                    '--glue','todoist.com',
+                    '--tags',tags,
+                    'src/test/resources/features']
+        }
+    }
+}
+
+
+task cucumberFeatures(){
+    dependsOn assemble, testClasses
+    doLast{
+        javaexec {
+            main ="io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin','pretty',
+                    '--plugin','json:build/cucumber/cucumber.json',
+                    '--plugin','json:build/cucumber/rerun.txt',
+                    '--glue','todoist.com',
+                    'classpath:features/login',
+                    'classpath:features/projects']
+        }
     }
 }
